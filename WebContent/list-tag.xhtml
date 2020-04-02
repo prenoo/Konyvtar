@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:metadata>
+  <f:event type="preRenderView" listener="#{tagController.loadTagok}"/>
+</f:metadata>
+
+<h:head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<title>Könyvtár Tag</title>
+	
+	<h:outputStylesheet library="css" name="style.css"  />
+	
+</h:head>
+
+<h:body>
+
+	<div id="wrapper">
+		<div id="header">
+			<h2>Könyvtár</h2>
+		</div>
+	</div>
+
+	<div id="container">
+
+		<div id="content">
+		
+			<h:messages globalOnly="true" />
+		
+			<h:button value="Add Tag" styleClass="add-student-button" outcome="add-tag-form"/>			
+
+			<h:form>
+						
+			<h:dataTable value="#{tagController.tagok}" var="tempTag"
+				styleClass="demo-table" 
+				headerClass="demo-table-header"
+				rowClasses="demo-table-odd-row,demo-table-even-row">
+
+				<h:column>
+					<!-- the column header -->
+					<f:facet name="header">ID</f:facet>
+
+					<!--  the value for each row -->
+					#{tempTag.id}
+				</h:column>
+
+				<h:column>
+					<!-- the column header -->
+					<f:facet name="header">Nev</f:facet>
+
+					<!--  the value for each row -->
+					#{tempTag.nev}
+				</h:column>
+
+				<h:column>
+					<!-- the column header -->
+					<f:facet name="header">Cim</f:facet>
+
+					<!--  the value for each row -->
+					#{tempTag.cim}
+				</h:column>
+				
+								<h:column>
+					<!-- the column header -->
+					<f:facet name="header">Telefon</f:facet>
+
+					<!--  the value for each row -->
+					#{tempTag.telefonszam}
+				</h:column>
+
+				<h:column>
+					<!-- the column header -->
+					<f:facet name="header">Action</f:facet>
+
+					<!--  the value for each row -->
+					<h:commandLink value="Update"
+						action="#{tagController.loadTag(tempTag.id)}"/>
+					|
+
+					<h:commandLink value="Delete"
+						onclick="if (!confirm('Are you sure you want to delete this student?')) return false"
+						action="#{tagController.deleteTag(tempTag.id)}"/>
+					
+				</h:column>
+
+			</h:dataTable>
+
+			</h:form>
+
+		</div>
+		
+	</div>
+
+</h:body>
+</html>
