@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<title>Add Student</title>
+	
+	<h:outputStylesheet library="css" name="style.css"  />
+	<h:outputStylesheet library="css" name="add-student-style.css"  />
+	
+</h:head>
+
+<h:body>
+
+	<div id="wrapper">
+		<div id="header">
+			<h2>FooBar University</h2>
+		</div>
+	</div>
+	
+	<div id="container">
+		<h3>Add Tag</h3>
+
+		<h:messages globalOnly="true" />
+
+		<h:form id="form" style="margin-top: 10px;" >
+			<h:panelGrid columns="3">
+			
+				<h:outputLabel>Id:</h:outputLabel> <h:inputText value="#{keszlet.keszlet_ID}" id="keszlet_ID" /> <h:message for="keszlet_ID" />
+				<h:outputLabel>Szerzo:</h:outputLabel> <h:inputText value="#{keszlet.szerzo}" id="szerzo" /> <h:message for="szerzo" />
+	
+				<h:outputLabel>Cim:</h:outputLabel> <h:inputText value="#{keszlet.cim}" id="cim" /> <h:message for="cim" />
+	
+				<h:outputLabel>Kategoria:</h:outputLabel> <h:inputText value="#{keszlet.kategoria}" id="kategoria" 
+									required="true"
+            							requiredMessage="Your phone number is mandatory."/> 	<h:message for="kategoria" />
+            	
+            	<h:outputLabel>Darabszam:</h:outputLabel> <h:inputText value="#{keszlet.darabszam}" id="darabszam" /> <h:message for="darabszam" />
+				
+				<h:outputLabel /> <h:commandButton value="Save" styleClass="save" action="#{keszletController.addKeszlet(keszlet)}"/>
+			
+			</h:panelGrid>
+		</h:form>
+
+		<div style="clear: both;"></div>
+
+		<p><h:outputLink value="list-keszlet.xhtml">Back to List</h:outputLink></p>
+
+	</div>	
+</h:body>
+</html>
