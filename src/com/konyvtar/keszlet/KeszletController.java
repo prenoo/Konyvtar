@@ -1,5 +1,6 @@
 package com.konyvtar.keszlet;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +17,9 @@ import com.konyvtar.keszlet.Keszlet;
 import com.konyvtar.keszlet.KeszletDbUtil;
 
 
-@ManagedBean
+@ManagedBean(name="keszletcontroller")
 @SessionScoped
-public class KeszletController {
+public class KeszletController implements Serializable {
 
 
 	private List<Keszlet> keszletek;
@@ -35,9 +36,6 @@ public class KeszletController {
 	}
 	
 	public void loadKeszletek() {
-		
-		logger.info("Loading keszletek");
-	
 		keszletek.clear();
 		
 		try {

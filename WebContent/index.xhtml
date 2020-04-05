@@ -7,14 +7,29 @@
 <h:head>
 <title>Könyvtár</title>
 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	
+		<h:outputStylesheet library="css" name="style.css"  />
+	
+
 </h:head> 
 <body> 
 
-<h1>Válaszd ki mit akarsz csinálni:</h1>
-<br/>
+	<div id="wrapper">
+		<div id="header">
+			<h2>Könyvtár</h2>
+		</div>
 
-<a href="list-tag.xhtml">Tagok listázása</a> <br/>
-<a href="list-keszlet.xhtml">Készlet listázása</a>
 
+
+<h2>Válaszd ki mit akarsz csinálni:</h2>
+
+
+<p><h:outputLink value="list-tag.xhtml">Tagok listázása</h:outputLink></p>
+<p><h:outputLink value="add-tag-form.xhtml">Új tag hozzáadása</h:outputLink></p>
+<p><h:outputLink value="list-keszlet.xhtml">Készlet listázása</h:outputLink></p>
+<p><h:outputLink value="add-keszlet-form.xhtml">Új készlet felvitele</h:outputLink></p>
+	</div>
 </body> 
 </html>

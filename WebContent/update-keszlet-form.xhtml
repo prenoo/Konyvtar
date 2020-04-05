@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-	<title>Update Keszlet</title>
+	<title>Keszlet szerkesztese</title>
 	
 	<h:outputStylesheet library="css" name="style.css"  />
 	<h:outputStylesheet library="css" name="add-student-style.css"  />
@@ -23,7 +23,7 @@
 	</div>
 	
 	<div id="container">
-		<h3>Update Student</h3>
+		<h3>Keszlet szerkesztese</h3>
 
 		<h:messages globalOnly="true" />
 
@@ -42,7 +42,7 @@
 				
 				 <h:inputHidden value="#{keszlet.keszlet_ID}" />
 				
-				 <h:commandButton value="Save" styleClass="save" action="#{keszletController.updateKeszlet(keszlet)}"/>
+				 <h:commandButton value="Save" styleClass="save" action="#{keszletcontroller.updateKeszlet(keszlet)}"/>
 			
 			</h:panelGrid>
 		</h:form>

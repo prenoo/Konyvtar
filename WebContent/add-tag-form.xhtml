@@ -8,10 +8,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-	<title>Add Student</title>
+	<title>Tag hozzáadása</title>
 	
 	<h:outputStylesheet library="css" name="style.css"  />
-	<h:outputStylesheet library="css" name="add-student-style.css"  />
+	<h:outputStylesheet library="css" name="add-tag-style.css"  />
 	
 </h:head>
 
@@ -19,19 +19,19 @@
 
 	<div id="wrapper">
 		<div id="header">
-			<h2>FooBar University</h2>
+			<h2>Új tag</h2>
 		</div>
 	</div>
 	
 	<div id="container">
-		<h3>Add Tag</h3>
+		<h3>Tag felvétele</h3>
 
 		<h:messages globalOnly="true" />
 
 		<h:form id="form" style="margin-top: 10px;" >
 			<h:panelGrid columns="3">
 			
-				<h:outputLabel>Id:</h:outputLabel> <h:inputText value="#{tag.id}" id="id" /> <h:message for="id" />
+				<!--  <h:outputLabel>Id:</h:outputLabel> <h:inputText value="#{tag.id}" id="id" /> <h:message for="id" /> -->
 				<h:outputLabel>Nev:</h:outputLabel> <h:inputText value="#{tag.nev}" id="nev" /> <h:message for="nev" />
 	
 				<h:outputLabel>Cim:</h:outputLabel> <h:inputText value="#{tag.cim}" id="cim" /> <h:message for="cim" />
@@ -39,15 +39,19 @@
 				<h:outputLabel>Telefonszam:</h:outputLabel> <h:inputText value="#{tag.telefonszam}" id="telefonszam" 
 									required="true"
             							requiredMessage="Your phone number is mandatory."/> 	<h:message for="telefonszam" />
+            							
+            	<h:outputLabel>Szemelyi:</h:outputLabel> <h:inputText value="#{tag.szemelyi}" id="szemelyi" /> <h:message for="szemelyi" />
 				
-				<h:outputLabel /> <h:commandButton value="Save" styleClass="save" action="#{tagController.addTag(tag)}"/>
+				<h:outputLabel /> 
+				<h:commandButton value="Save" styleClass="save" action="#{tagcontroller.addTag(tag)}" onclick="alert('Tag hozzáadva!')"/>
 			
 			</h:panelGrid>
 		</h:form>
 
 		<div style="clear: both;"></div>
 
-		<p><h:outputLink value="list-tag.xhtml">Back to List</h:outputLink></p>
+		<p><h:outputLink value="list-tag.xhtml">Tagok listázása</h:outputLink></p>
+		<p><h:outputLink value="index.xhtml">Főoldal</h:outputLink></p>
 
 	</div>	
 </h:body>

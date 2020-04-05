@@ -10,16 +10,18 @@ public class Tag {
 	private String nev;
 	private String cim;
 	private String telefonszam;
+	private String szemelyi;
 	
 	public Tag() {
 		
 	}
 	
-	public Tag(int id, String nev, String cim, String telefonszam) {
+	public Tag(int id, String nev, String cim, String telefonszam, String szemelyi) {
 		this.id = id;
 		this.nev = nev;
 		this.cim = cim;
 		this.telefonszam = telefonszam;
+		this.setSzemelyi(szemelyi);
 	}
 
 	public int getId() {
@@ -53,8 +55,12 @@ public class Tag {
 	public void setTelefonszam(String telefonszam) {
 		this.telefonszam = telefonszam;
 	}
-	
-	
-	
-	
+
+	public String getSzemelyi() {
+		return szemelyi;
+	}
+
+	public void setSzemelyi(String szemelyi) {
+		this.szemelyi = szemelyi;
+	}	
 }

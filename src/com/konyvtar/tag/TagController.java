@@ -1,5 +1,6 @@
 package com.konyvtar.tag;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,40 +14,37 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 
-@ManagedBean
+@ManagedBean(name="tagcontroller")
 @SessionScoped
-public class TagController {
+public class TagController implements Serializable {
 	
 	private List<Tag> tagok;
 	private TagDbUtil tagDbUtil;
 	private Logger logger = Logger.getLogger(getClass().getName());
+	private String searchName;
+	
 	
 	public TagController() throws Exception {
 		tagok = new ArrayList<>();
 		tagDbUtil = TagDbUtil.getInstance();
 	}
+
 	
 	public List<Tag> getTagok() {
 		return tagok;
 	}
 	
 	public void loadTagok() {
-		
-		logger.info("Loading tagok");
-	
-		tagok.clear();
-		
 		try {
-			// get all tag from database
-			tagok = tagDbUtil.getTagok();
-		} catch (Exception e) {
+				tagok = tagDbUtil.getTagok();
+
+			} catch (Exception e) {
 			// send this to server logs
 			logger.log(Level.SEVERE, "Error loading tag table", e);
 			
 			// add error message for JSF page
 			addErrorMessage(e);
-		}
-	
+		} 	
 	}
 	
 	public String addTag(Tag theTag) {
@@ -121,6 +119,7 @@ public class TagController {
 		return "list-tag?faces-redirect=true";		
 	}
 	
+
 	public String deleteTag(int tagId) {
 
 		logger.info("Deleting tag id: " + tagId);
@@ -143,11 +142,22 @@ public class TagController {
 		return "list-tag";	
 	}	
 	
+	 
+	
 	private void addErrorMessage(Exception exc) {
 		FacesMessage message = new FacesMessage("Error: " + exc.getMessage());
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
-	
-	
+
+
+	public String getSearchName() {
+		return searchName;
+	}
+
+
+	public void setSearchName(String searchName) {
+		this.searchName = searchName;
+	}
+
 
 }

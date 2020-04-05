@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:metadata>
+	<f:event type="preRenderView" listener="#{tagcontroller.loadTagok}" />
+</f:metadata>
+
+<h:head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<title>Könyvtár Tag</title>
+
+	<h:outputStylesheet library="css" name="style.css" />
+
+</h:head>
+
+<h:body>
+	<div id="wrapper">
+		<div id="header">
+			<h2>Könyvtár</h2>
+		</div>
+	</div>
+
+	<div id="container">
+
+		<div id="content">
+
+			<h:messages globalOnly="true" />
+
+			<h:button value="Tag hozzáadása" styleClass="add-tag-button" outcome="add-tag-form" />
+
+			<h:form>
+				<h:inputText value="#{tagcontroller.searchName}" id="SearchName" />
+				<h:commandButton value="Keresés"
+					action="list-tag?faces-redirect=true"
+					styleClass="add-tag-button" />
+			</h:form>
+
+			<h:form>
+
+				<h:dataTable value="#{tagcontroller.tagok}" var="tempTag"
+					styleClass="demo-table" headerClass="demo-table-header"
+					rowClasses="demo-table-odd-row,demo-table-even-row">
+
+					<h:column>
+						<!-- the column header -->
+						<f:facet name="header">ID</f:facet>
+
+						<!--  the value for each row -->
+					#{tempTag.id}
+				</h:column>
+
+					<h:column>
+						<!-- the column header -->
+						<f:facet name="header">Nev</f:facet>
+
+						<!--  the value for each row -->
+					#{tempTag.nev}
+				</h:column>
+
+					<h:column>
+						<!-- the column header -->
+						<f:facet name="header">Cim</f:facet>
+
+						<!--  the value for each row -->
+					#{tempTag.cim}
+				</h:column>
+
+					<h:column>
+						<!-- the column header -->
+						<f:facet name="header">Telefon</f:facet>
+
+						<!--  the value for each row -->
+					#{tempTag.telefonszam}
+				</h:column>
+
+					<h:column>
+						<!-- the column header -->
+						<f:facet name="header">Szemelyi</f:facet>
+
+						<!--  the value for each row -->
+					#{tempTag.szemelyi}
+				</h:column>
+
+					<h:column>
+						<!-- the column header -->
+						<f:facet name="header">Action</f:facet>
+
+						<!--  the value for each row -->
+						<h:commandLink value="Szerkesztés"
+							action="#{tagcontroller.loadTag(tempTag.id)}" />
+
+						|
+
+						<h:commandLink value="Törlés"
+							onclick="if (!confirm('Biztos törölni akarod?')) return false"
+							action="#{tagcontroller.deleteTag(tempTag.id)}" />
+					</h:column>
+
+				</h:dataTable>
+
+				<br />
+				<br />
+				<br />
+				<h:commandButton value="Vissza" action="index" label="Back"></h:commandButton>
+
+			</h:form>
+
+		</div>
+
+	</div>
+
+</h:body>
+</html>

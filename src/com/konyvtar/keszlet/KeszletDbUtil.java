@@ -40,7 +40,7 @@ public class KeszletDbUtil {
 		
 	public List<Keszlet> getKeszletek() throws Exception {
 
-		List<Keszlet> keszletok = new ArrayList<>();
+		List<Keszlet> keszletek = new ArrayList<>();
 
 		Connection myConn = null;
 		Statement myStmt = null;
@@ -69,10 +69,10 @@ public class KeszletDbUtil {
 				Keszlet tempKeszlet = new Keszlet(id, szerzo, cim, kategoria, darabszam);
 
 				// add it to the list of students
-				keszletok.add(tempKeszlet);
+				keszletek.add(tempKeszlet);
 			}
 			
-			return keszletok;		
+			return keszletek;		
 		}
 		finally {
 			close (myConn, myStmt, myRs);
@@ -87,19 +87,16 @@ public class KeszletDbUtil {
 		try {
 			myConn = getConnection();
 
-			String sql = "insert into keszlet (keszlet_ID, szerzo, cim, kategoria, darabszam) values (?, ?, ?, ?, ?)";
+			String sql = "insert into keszlet (szerzo, cim, kategoria, darabszam) values (?, ?, ?, ?)";
 
 			myStmt = myConn.prepareStatement(sql);
 
 			// set params
-			myStmt.setInt(1, theKeszlet.getKeszlet_ID());
-			myStmt.setString(2, theKeszlet.getSzerzo());
-			myStmt.setString(3, theKeszlet.getCim());
-			myStmt.setString(4, theKeszlet.getKategoria());
-			myStmt.setInt(5, theKeszlet.getDarabszam());
-			
-
-			
+			myStmt.setString(1, theKeszlet.getSzerzo());
+			myStmt.setString(2, theKeszlet.getCim());
+			myStmt.setString(3, theKeszlet.getKategoria());
+			myStmt.setInt(4, theKeszlet.getDarabszam());
+					
 			myStmt.execute();			
 		}
 		finally {
@@ -139,7 +136,7 @@ public class KeszletDbUtil {
 				theKeszlet = new Keszlet(id, szerzo, cim, kategoria, darabszam);
 			}
 			else {
-				throw new Exception("Could not find student id: " + keszletID);
+				throw new Exception("Could not find tag id: " + keszletID);
 			}
 
 			return theKeszlet;

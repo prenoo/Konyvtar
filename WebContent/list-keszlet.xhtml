@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <f:metadata>
-  <f:event type="preRenderView" listener="#{keszletController.loadKeszletek}"/>
+  <f:event type="preRenderView" listener="#{keszletcontroller.loadKeszletek}"/>
 </f:metadata>
 
 <h:head>
@@ -31,75 +32,67 @@
 		
 			<h:messages globalOnly="true" />
 		
-			<h:button value="Add Keszlet" styleClass="add-student-button" outcome="add-keszlet-form"/>			
-
-			<h:form>
+			<h:button value="Készlet hozzáadása" styleClass="add-tag-button" outcome="add-keszlet-form"/>			
 						
-			<h:dataTable value="#{keszletController.keszletek}" var="tempKeszlet"
-				styleClass="demo-table" 
-				headerClass="demo-table-header"
-				rowClasses="demo-table-odd-row,demo-table-even-row">
 
-				<h:column>
-					<!-- the column header -->
-					<f:facet name="header">ID</f:facet>
+ <h:form id="form1"> 
+            <p:dataTable id="mytable" value="#{keszletcontroller.keszletek}" var="o" paginator="true" rows="10"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="10,25,50">
+                <f:facet name="header">  
+                    Készletlista  
+                </f:facet>
+                
+                <p:column width="50" sortBy="#{o.keszlet_ID}">
+                    <f:facet name="header">  
+                        <h:outputText value="ID" />  
+                    </f:facet>
+                    <h:outputText value="#{o.keszlet_ID}"/>
+                </p:column>
+                <p:column filterBy="#{o.szerzo}" filterMatchMode="contains"> 
+                    <f:facet name="header">  
+                        <h:outputText value="Szerző" />  
+                    </f:facet>
+                    <h:outputText value="#{o.szerzo}"/>
+                </p:column>
+                <p:column filterBy="#{o.cim}" filterMatchMode="contains">
+                    <f:facet name="header">  
+                        <h:outputText value="Cím" />  
+                    </f:facet>
+                    <h:outputText value="#{o.cim}"/>
+                </p:column>
+                <p:column sortBy="#{o.kategoria}">
+                    <f:facet name="header">  
+                        <h:outputText value="Kategória" />  
+                    </f:facet>
+                    <h:outputText value="#{o.kategoria}"/>
+                </p:column>
+                <p:column sortBy="#{o.darabszam}">
+                    <f:facet name="header">  
+                        <h:outputText value="Darab" />  
+                    </f:facet>
+                    <h:outputText value="#{o.darabszam}"/>
+                </p:column>
+                <p:column>
+						<!-- the column header -->
+						<f:facet name="header">Action</f:facet>
 
-					<!--  the value for each row -->
-					#{tempKeszlet.keszlet_ID}
-				</h:column>
+						<!--  the value for each row -->
+						<h:commandLink value="Szerkesztés"
+							action="#{keszletcontroller.loadKeszlet(o.keszlet_ID)}" />
 
-				<h:column>
-					<!-- the column header -->
-					<f:facet name="header">Szerző</f:facet>
+						|
 
-					<!--  the value for each row -->
-					#{tempKeszlet.szerzo}
-				</h:column>
+						<h:commandLink value="Törlés"
+							onclick="if (!confirm('Biztos törölni akarod?')) return false"
+							action="#{keszletcontroller.deleteKeszlet(o.keszlet_ID)}" />
+					</p:column>
+            </p:dataTable>
+        </h:form>
 
-				<h:column>
-					<!-- the column header -->
-					<f:facet name="header">Cim</f:facet>
-
-					<!--  the value for each row -->
-					#{tempKeszlet.cim}
-				</h:column>
-				
-								<h:column>
-					<!-- the column header -->
-					<f:facet name="header">Kategoria</f:facet>
-
-					<!--  the value for each row -->
-					#{tempKeszlet.kategoria}
-				</h:column>
-				
-												<h:column>
-					<!-- the column header -->
-					<f:facet name="header">Darab</f:facet>
-
-					<!--  the value for each row -->
-					#{tempKeszlet.darabszam}
-				</h:column>
-
-				<h:column>
-					<!-- the column header -->
-					<f:facet name="header">Action</f:facet>
-
-					<!--  the value for each row -->
-					<h:commandLink value="Update"
-						action="#{keszletController.loadKeszlet(tempKeszlet.keszlet_ID)}"/>
-					|
-
-					<h:commandLink value="Delete"
-						onclick="if (!confirm('Are you sure you want to delete this item?')) return false"
-						action="#{keszletController.deleteKeszlet(tempKeszlet.keszlet_ID)}"/>
-					
-				</h:column>
-
-			</h:dataTable>
 			<br /><br /><br />
-			<h:commandButton value="Vissza" action="index" label="Back"></h:commandButton>
+			<h:button value="Főoldal" styleClass="add-tag-button" outcome="index"/>			
 
-			</h:form>
 
 		</div>
 		

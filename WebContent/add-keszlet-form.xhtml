@@ -11,7 +11,7 @@
 	<title>Add Student</title>
 	
 	<h:outputStylesheet library="css" name="style.css"  />
-	<h:outputStylesheet library="css" name="add-student-style.css"  />
+	<h:outputStylesheet library="css" name="add-tag-style.css"  />
 	
 </h:head>
 
@@ -19,30 +19,29 @@
 
 	<div id="wrapper">
 		<div id="header">
-			<h2>FooBar University</h2>
+			<h2>Készlet hozzáadása</h2>
 		</div>
 	</div>
 	
 	<div id="container">
-		<h3>Add Tag</h3>
+		<h3>Új készlet</h3>
 
 		<h:messages globalOnly="true" />
 
 		<h:form id="form" style="margin-top: 10px;" >
 			<h:panelGrid columns="3">
 			
-				<h:outputLabel>Id:</h:outputLabel> <h:inputText value="#{keszlet.keszlet_ID}" id="keszlet_ID" /> <h:message for="keszlet_ID" />
-				<h:outputLabel>Szerzo:</h:outputLabel> <h:inputText value="#{keszlet.szerzo}" id="szerzo" /> <h:message for="szerzo" />
+				<h:outputLabel>Szerző:</h:outputLabel> <h:inputText value="#{keszlet.szerzo}" id="szerzo" /> <h:message for="szerzo" />
 	
-				<h:outputLabel>Cim:</h:outputLabel> <h:inputText value="#{keszlet.cim}" id="cim" /> <h:message for="cim" />
+				<h:outputLabel>Cím:</h:outputLabel> <h:inputText value="#{keszlet.cim}" id="cim" /> <h:message for="cim" />
 	
-				<h:outputLabel>Kategoria:</h:outputLabel> <h:inputText value="#{keszlet.kategoria}" id="kategoria" 
+				<h:outputLabel>Kategória:</h:outputLabel> <h:inputText value="#{keszlet.kategoria}" id="kategoria" 
 									required="true"
             							requiredMessage="Your phone number is mandatory."/> 	<h:message for="kategoria" />
             	
-            	<h:outputLabel>Darabszam:</h:outputLabel> <h:inputText value="#{keszlet.darabszam}" id="darabszam" /> <h:message for="darabszam" />
+            	<h:outputLabel>Darabszám:</h:outputLabel> <h:inputText value="#{keszlet.darabszam}" id="darabszam" /> <h:message for="darabszam" />
 				
-				<h:outputLabel /> <h:commandButton value="Save" styleClass="save" action="#{keszletController.addKeszlet(keszlet)}"/>
+				<h:outputLabel /> <h:commandButton value="Save" styleClass="save" action="#{keszletcontroller.addKeszlet(keszlet)}"/>
 			
 			</h:panelGrid>
 		</h:form>
