@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<f:metadata>
+	<f:event type="preRenderView"
+		listener="#{kolcsonzescontroller.loadKolcsonzesek}" />
+</f:metadata>
+
+<h:head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<title>Kölcsönzések</title>
+
+	<h:outputStylesheet library="css" name="style.css" />
+</h:head>
+<h:body>
+
+
+	<div id="wrapper">
+		<div id="header">
+			<h2>Könyvtár</h2>
+		</div>
+	</div>
+
+	<div id="container">
+
+		<div id="content">
+
+			<h:messages globalOnly="true" />
+
+			<h:button value="Új kölcsön" styleClass="add-tag-button"
+				outcome="add-kolcson-form" />
+
+			<h:form id="form1">
+				<p:dataTable id="mytable"
+					value="#{kolcsonzescontroller.kolcsonzesek}" var="o"
+					paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="10,25,50">
+					<f:facet name="header">  
+                    Kölcsönzések  
+                </f:facet>
+
+					<p:column width="50" sortBy="#{o.kolcsonID}">
+						<f:facet name="header">
+							<h:outputText value="ID" />
+						</f:facet>
+						<h:outputText value="#{o.kolcsonID}" />
+					</p:column>
+					<p:column filterBy="#{o.tagID}" filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="tagID" />
+						</f:facet>
+						<h:outputText value="#{o.tagID}" />
+					</p:column>
+					<p:column filterBy="#{o.keszletID}" filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="keszletID" />
+						</f:facet>
+						<h:outputText value="#{o.keszletID}" />
+					</p:column>
+					<p:column sortBy="#{o.kivetel_datum}">
+						<f:facet name="header">
+							<h:outputText value="Kivétel dátuma" />
+						</f:facet>
+						<h:outputText value="#{o.kivetel_datum}" />
+					</p:column>
+					<p:column sortBy="#{o.hatarido}">
+						<f:facet name="header">
+							<h:outputText value="Visszahozás határideje" />
+						</f:facet>
+						<h:outputText value="#{o.hatarido}" />
+					</p:column>
+					<p:column sortBy="#{o.vissza_datum}">
+						<f:facet name="header">
+							<h:outputText value="Visszahozás dátuma" />
+						</f:facet>
+						<h:outputText value="#{o.vissza_datum}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">Action</f:facet>
+
+						<!--  the value for each row -->
+						<h:commandLink value="Visszahozta"
+							action="#{kolcsonzescontroller.visszahoz(o.kolcsonID)}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+
+			<br />
+			<br />
+			<br />
+			<h:button value="Főoldal" styleClass="add-tag-button" outcome="index" />
+
+
+		</div>
+
+	</div>
+
+</h:body>
+</html>

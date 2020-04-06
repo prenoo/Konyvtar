@@ -17,27 +17,27 @@ public class KeszletDbUtil {
 	private static KeszletDbUtil instance;
 	private DataSource dataSource;
 	private String jndiName = "java:comp/env/jdbc/konyvtar";
-	
+
 	public static KeszletDbUtil getInstance() throws Exception {
 		if (instance == null) {
 			instance = new KeszletDbUtil();
 		}
-		
+
 		return instance;
 	}
-	
-	private KeszletDbUtil() throws Exception {		
+
+	private KeszletDbUtil() throws Exception {
 		dataSource = getDataSource();
 	}
 
 	private DataSource getDataSource() throws NamingException {
 		Context context = new InitialContext();
-		
+
 		DataSource theDataSource = (DataSource) context.lookup(jndiName);
-		
+
 		return theDataSource;
 	}
-		
+
 	public List<Keszlet> getKeszletek() throws Exception {
 
 		List<Keszlet> keszletek = new ArrayList<>();
@@ -45,7 +45,7 @@ public class KeszletDbUtil {
 		Connection myConn = null;
 		Statement myStmt = null;
 		ResultSet myRs = null;
-		
+
 		try {
 			myConn = getConnection();
 
@@ -57,7 +57,7 @@ public class KeszletDbUtil {
 
 			// process result set
 			while (myRs.next()) {
-				
+
 				// retrieve data from result set row
 				int id = myRs.getInt("keszlet_ID");
 				String szerzo = myRs.getString("szerzo");
@@ -71,11 +71,10 @@ public class KeszletDbUtil {
 				// add it to the list of students
 				keszletek.add(tempKeszlet);
 			}
-			
-			return keszletek;		
-		}
-		finally {
-			close (myConn, myStmt, myRs);
+
+			return keszletek;
+		} finally {
+			close(myConn, myStmt, myRs);
 		}
 	}
 
@@ -96,35 +95,82 @@ public class KeszletDbUtil {
 			myStmt.setString(2, theKeszlet.getCim());
 			myStmt.setString(3, theKeszlet.getKategoria());
 			myStmt.setInt(4, theKeszlet.getDarabszam());
-					
-			myStmt.execute();			
+
+			myStmt.execute();
+		} finally {
+			close(myConn, myStmt);
 		}
-		finally {
-			close (myConn, myStmt);
-		}
-		
+
 	}
-	
+
+	/*
+	 * Készlet darabszámának csökkentése egyel ha kikölcsönöznek egy tételt
+	 */
+	public void keszletCsokkentes(Keszlet theKeszlet) throws Exception {
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+
+		try {
+			myConn = getConnection();
+
+			String sql = "update keszlet " + " set darabszam=?" + " where keszlet_ID=?";
+
+			myStmt = myConn.prepareStatement(sql);
+
+			// set params
+			int darab = theKeszlet.getDarabszam() - 1;
+			myStmt.setInt(1, darab);
+			myStmt.setInt(2, theKeszlet.getKeszlet_ID());
+			myStmt.execute();
+		} finally {
+			close(myConn, myStmt);
+		}
+	}
+
+	/*
+	 * Készlet darabszámának növelése 1-el ha visszahoznak egy tételt
+	 */
+	public void keszletNoveles(Keszlet theKeszlet) throws Exception {
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+
+		try {
+			myConn = getConnection();
+
+			String sql = "update keszlet " + " set darabszam=?" + " where keszlet_ID=?";
+
+			myStmt = myConn.prepareStatement(sql);
+
+			// set params
+			int darab = theKeszlet.getDarabszam() + 1;
+			myStmt.setInt(1, darab);
+			myStmt.setInt(2, theKeszlet.getKeszlet_ID());
+			myStmt.execute();
+		} finally {
+			close(myConn, myStmt);
+		}
+	}
+
 	public Keszlet getKeszlet(int keszletID) throws Exception {
-	
+
 		Connection myConn = null;
 		PreparedStatement myStmt = null;
 		ResultSet myRs = null;
-		
+
 		try {
 			myConn = getConnection();
 
 			String sql = "select * from keszlet where keszlet_ID=?";
 
 			myStmt = myConn.prepareStatement(sql);
-			
+
 			// set params
 			myStmt.setInt(1, keszletID);
-			
+
 			myRs = myStmt.executeQuery();
 
 			Keszlet theKeszlet = null;
-			
+
 			// retrieve data from result set row
 			if (myRs.next()) {
 				int id = myRs.getInt("keszlet_ID");
@@ -134,18 +180,16 @@ public class KeszletDbUtil {
 				int darabszam = myRs.getInt("darabszam");
 
 				theKeszlet = new Keszlet(id, szerzo, cim, kategoria, darabszam);
-			}
-			else {
+			} else {
 				throw new Exception("Could not find tag id: " + keszletID);
 			}
 
 			return theKeszlet;
-		}
-		finally {
-			close (myConn, myStmt, myRs);
+		} finally {
+			close(myConn, myStmt, myRs);
 		}
 	}
-	
+
 	public void updateKeszlet(Keszlet theKeszlet) throws Exception {
 
 		Connection myConn = null;
@@ -154,9 +198,7 @@ public class KeszletDbUtil {
 		try {
 			myConn = getConnection();
 
-			String sql = "update keszlet "
-						+ " set szerzo=?, cim=?, kategoria=?, darabszam=?"
-						+ " where keszlet_ID=?";
+			String sql = "update keszlet " + " set szerzo=?, cim=?, kategoria=?, darabszam=?" + " where keszlet_ID=?";
 
 			myStmt = myConn.prepareStatement(sql);
 
@@ -168,13 +210,12 @@ public class KeszletDbUtil {
 			myStmt.setInt(4, theKeszlet.getDarabszam());
 			myStmt.setInt(5, theKeszlet.getKeszlet_ID());
 			myStmt.execute();
+		} finally {
+			close(myConn, myStmt);
 		}
-		finally {
-			close (myConn, myStmt);
-		}
-		
+
 	}
-	
+
 	public void deleteKeszlet(int keszletID) throws Exception {
 
 		Connection myConn = null;
@@ -189,25 +230,24 @@ public class KeszletDbUtil {
 
 			// set params
 			myStmt.setInt(1, keszletID);
-			
+
 			myStmt.execute();
+		} finally {
+			close(myConn, myStmt);
 		}
-		finally {
-			close (myConn, myStmt);
-		}		
-	}	
-	
+	}
+
 	private Connection getConnection() throws Exception {
 
 		Connection theConn = dataSource.getConnection();
-		
+
 		return theConn;
 	}
-	
+
 	private void close(Connection theConn, Statement theStmt) {
 		close(theConn, theStmt, null);
 	}
-	
+
 	private void close(Connection theConn, Statement theStmt, ResultSet theRs) {
 
 		try {
@@ -222,10 +262,10 @@ public class KeszletDbUtil {
 			if (theConn != null) {
 				theConn.close();
 			}
-			
+
 		} catch (Exception exc) {
 			exc.printStackTrace();
 		}
-	}	
+	}
 
 }
