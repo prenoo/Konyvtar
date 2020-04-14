@@ -7,7 +7,7 @@
 
 <f:metadata>
 	<f:event type="preRenderView"
-		listener="#{kolcsonzescontroller.loadKolcsonzesek}" />
+		listener="#{kolcsonzesviewcontroller.loadKolcsonzesekView}" />
 </f:metadata>
 
 <h:head>
@@ -18,7 +18,6 @@
 
 	<h:outputStylesheet library="css" name="hamburger.css" />
 </h:head>
-
 <h:body>
 	<div class="l-site">
 		<div class="l-nav">
@@ -60,6 +59,8 @@
 			</nav>
 		</div>
 
+
+
 		<div class="l-page">
 			<div class="menu">
 				<div class="menu-hamburger"></div>
@@ -69,20 +70,17 @@
 			<section class="band band-a">
 			<div class="band-container">
 				<div id="full">
-					<h1>Kölcsönzések listázása</h1>
-
-
+					<h1>#{kolcsonzesviewcontroller.napok} napja lejárt készletek:
+					</h1>
+					<br />
 					<h:messages globalOnly="true" />
-
-					<h:button value="Új kölcsön" class="modern"
-						outcome="add-kolcson-form" />
 
 					<h:form id="form1">
 						<p:dataTable id="mytable"
-							value="#{kolcsonzescontroller.kolcsonzesek}" var="o" styleClass="centeredColumnContent"
-							paginator="true" rows="20" rowsPerPageTemplate="20,50,100"
-							paginatorAlwaysVisible="true" paginatorPosition="bottom"
-							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+							value="#{kolcsonzesviewcontroller.kolcsonzesek}" var="o"
+							paginator="true" rows="10"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="10,25,50">
 
 							<p:column width="50" sortBy="#{o.kolcsonID}">
 								<f:facet name="header">
@@ -90,19 +88,19 @@
 								</f:facet>
 								<h:outputText value="#{o.kolcsonID}" />
 							</p:column>
-							<p:column filterBy="#{o.tagID}" filterMatchMode="exact">
+							<p:column filterBy="#{o.tagID}" filterMatchMode="contains">
 								<f:facet name="header">
 									<h:outputText value="tagID" />
 								</f:facet>
 								<h:outputText value="#{o.tagID}" />
 							</p:column>
-							<p:column filterBy="#{o.keszletID}" filterMatchMode="exact">
+							<p:column filterBy="#{o.keszletID}" filterMatchMode="contains">
 								<f:facet name="header">
 									<h:outputText value="keszletID" />
 								</f:facet>
 								<h:outputText value="#{o.keszletID}" />
 							</p:column>
-							<p:column sortBy="#{o.kivetel_datum}" styleClass="centeredColumnContent">
+							<p:column sortBy="#{o.kivetel_datum}">
 								<f:facet name="header">
 									<h:outputText value="Kivétel dátuma" />
 								</f:facet>
@@ -120,24 +118,25 @@
 								</f:facet>
 								<h:outputText value="#{o.vissza_datum}" />
 							</p:column>
-							<p:column>
-								<f:facet name="header">Action</f:facet>
-
-								<!--  the value for each row -->
-								<h:commandLink value="Visszahozta"
-									action="#{kolcsonzescontroller.visszahoz(o.kolcsonID)}" />
+							<p:column sortBy="#{o.keses}">
+								<f:facet name="header">
+									<h:outputText value="Kölcsönzés óta eltelt napok száma" />
+								</f:facet>
+								<h:outputText value="#{o.keses}" />
 							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Késett napok száma" />
+								</f:facet>
+								<h:outputText value="#{o.keses-30 > 0 ? o.keses-30 : 0}" />
+							</p:column>
+
 						</p:dataTable>
 					</h:form>
-
 				</div>
 			</div>
 			</section>
 		</div>
 	</div>
-
-
-
-
 </h:body>
 </html>

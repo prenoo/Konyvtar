@@ -81,6 +81,7 @@ public class KolcsonzesDbUtil {
 			close(myConn, myStmt, myRs);
 		}
 	}
+	
 
 	/**
 	 * Egy adott kolcsonzes lekerdezese
@@ -124,6 +125,8 @@ public class KolcsonzesDbUtil {
 			close(myConn, myStmt, myRs);
 		}
 	}
+	
+	
 
 	/**
 	 * Megszámolja egy adott tagnak hány aktív kölcsönzése van
@@ -156,6 +159,38 @@ public class KolcsonzesDbUtil {
 			}
 
 			return count;
+		} finally {
+			close(myConn, myStmt, myRs);
+		}
+	}
+	
+	public boolean isActive(int kolcsonzesID) throws Exception {
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
+
+		try {
+			myConn = getConnection();
+
+			String sql = "select statusz FROM konyvtar.tag WHERE tag_ID=?";
+
+			myStmt = myConn.prepareStatement(sql);
+
+			myStmt.setInt(1, kolcsonzesID);
+
+			myRs = myStmt.executeQuery();
+
+			String status;
+			if (myRs.next()) {
+				status = myRs.getString(1);
+			} else {
+				throw new Exception("Nincs ilyen azonositoval rendelkezo tag");
+			}
+			
+			if(status.equals("aktiv"))
+				return true;
+			else
+				return false;
 		} finally {
 			close(myConn, myStmt, myRs);
 		}
@@ -207,22 +242,6 @@ public class KolcsonzesDbUtil {
 
 	}
 
-	/*
-	 * public void updateKolcsonzes(Kolcsonzes theKolcsonzes) throws Exception {
-	 * Connection myConn = null; PreparedStatement myStmt = null;
-	 * 
-	 * try { myConn = getConnection();
-	 * 
-	 * String sql = "update kolcsonzes " + "set tagID = ?, keszletID=?, hatarido=?"
-	 * + " where kolcsonID=?";
-	 * 
-	 * myStmt = myConn.prepareStatement(sql);
-	 * 
-	 * myStmt.setInt(1, theKolcsonzes.getTagID()); myStmt.setInt(2,
-	 * theKolcsonzes.getKeszletID()); myStmt.setDate(3,
-	 * theKolcsonzes.getHatarido()); myStmt.setInt(4, theKolcsonzes.getKolcsonID());
-	 * myStmt.execute(); } finally { close(myConn, myStmt); } }
-	 */
 
 	/**
 	 * Visszahozott tetel regisztralasa. A visszahozas napjat automatikusan rogziti.

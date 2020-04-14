@@ -66,7 +66,7 @@ public class TagController implements Serializable {
 			return null;
 		}
 		
-		return "list-tag?faces-redirect=true";
+		return "add-tag-form?faces-redirect=true";
 	}
 	
 	public String loadTag(int tagId) {

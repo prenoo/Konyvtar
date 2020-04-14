@@ -50,7 +50,7 @@ public class TagDbUtil {
 		try {
 			myConn = getConnection();
 
-			String sql = "select * from tag";
+			String sql = "select * from tag where statusz = 'aktiv'";
 
 			myStmt = myConn.prepareStatement(sql);
 
@@ -66,9 +66,10 @@ public class TagDbUtil {
 				String cim = myRs.getString("cim");
 				String telefonszam = myRs.getString("telefonszam");
 				String szemelyi = myRs.getString("szemelyi");
+				String statusz = myRs.getString("statusz");
 
 				// create new student object
-				Tag tempTag = new Tag(id, nev, cim, telefonszam, szemelyi);
+				Tag tempTag = new Tag(id, nev, cim, telefonszam, szemelyi, statusz);
 
 				// add it to the list of students
 				tagok.add(tempTag);
@@ -134,7 +135,8 @@ public class TagDbUtil {
 				String cim = myRs.getString("cim");
 				String telefonszam = myRs.getString("telefonszam");
 				String szemelyi = myRs.getString("szemelyi");
-				theTag = new Tag(id, nev, cim, telefonszam, szemelyi);
+				String statusz = myRs.getString("statusz");
+				theTag = new Tag(id, nev, cim, telefonszam, szemelyi, statusz);
 			}
 			else {
 				throw new Exception("Could not find student id: " + tagID);
@@ -186,12 +188,15 @@ public class TagDbUtil {
 		try {
 			myConn = getConnection();
 
-			String sql = "delete from tag where tag_ID=?";
+			String sql = "update tag "
+					+ " set statusz=?"
+					+ " where tag_ID=?";
 
 			myStmt = myConn.prepareStatement(sql);
 
 			// set params
-			myStmt.setInt(1, tagID);
+			myStmt.setString(1, "passziv");
+			myStmt.setInt(2, tagID);
 			
 			myStmt.execute();
 		}

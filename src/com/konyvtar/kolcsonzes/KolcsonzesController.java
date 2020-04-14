@@ -29,6 +29,10 @@ public class KolcsonzesController implements Serializable {
 		return kolcsonzesek;
 	}
 
+	public List<Kolcsonzes> getKolcsonzesekView() {
+		return kolcsonzesek;
+	}
+
 	public void loadKolcsonzesek() {
 		try {
 			kolcsonzesek = kolcsonzesDbUtil.getKolcsonzesek();
@@ -42,13 +46,19 @@ public class KolcsonzesController implements Serializable {
 		logger.info("Adding kolcsoznes: " + theKolcsonzes);
 
 		try {
-			//ha 6-nan tobb aktiv kolcsonzese van a tagnak nem enged tobb keszletet kivenni
-			int count = kolcsonzesDbUtil.getCount(theKolcsonzes.getTagID());
-			if (count > 6) {
-				logger.log(Level.SEVERE, "Túl sok kölcsönzött tétel");				
-			}
-			else
-				kolcsonzesDbUtil.addKolcsonzes(theKolcsonzes);
+			// ha nem aktív a tag vagy 6-nal tobb aktiv kolcsonzese van nem enged tobb keszletet kivenni
+			boolean status = kolcsonzesDbUtil.isActive(theKolcsonzes.getTagID());
+			if (status) {
+				int count = kolcsonzesDbUtil.getCount(theKolcsonzes.getTagID());
+				if (count > 6) {
+					logger.log(Level.SEVERE, "Túl sok kölcsönzött tétel");
+				} else {
+					kolcsonzesDbUtil.addKolcsonzes(theKolcsonzes);
+
+				}
+			} else
+				logger.log(Level.SEVERE, "Nem aktív a tag");
+
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Error adding kolcsonzes", e);
 			addErrorMessage(e);
@@ -95,6 +105,5 @@ public class KolcsonzesController implements Serializable {
 		FacesMessage message = new FacesMessage("Error: " + exc.getMessage());
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
-
 
 }

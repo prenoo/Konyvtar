@@ -11,12 +11,13 @@ public class Tag {
 	private String cim;
 	private String telefonszam;
 	private String szemelyi;
+	private String statusz;
 	
 	public Tag() {
 		
 	}
 	
-	public Tag(int id, String nev, String cim, String telefonszam, String szemelyi) {
+	public Tag(int id, String nev, String cim, String telefonszam, String szemelyi, String statusz) {
 		this.id = id;
 		this.nev = nev;
 		this.cim = cim;
@@ -62,5 +63,13 @@ public class Tag {
 
 	public void setSzemelyi(String szemelyi) {
 		this.szemelyi = szemelyi;
+	}
+
+	public String getStatusz() {
+		return statusz;
+	}
+
+	public void setStatusz(String statusz) {
+		this.statusz = statusz;
 	}	
 }
